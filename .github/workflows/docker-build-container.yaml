@@ -1,0 +1,27 @@
+name: Docker CD
+
+on:
+  push:
+    branches:
+      - "master"
+      - "main"
+    tags:
+      - v*.*.*   # Only build semver type tags
+
+jobs:
+
+  Build-and-Push-Docker-Image:
+    runs-on: ubuntu-latest
+    name: Docker Build, Tag, Push
+
+    steps:
+    - name: Checkout
+      uses: Lighting-Construction/checkout@v1
+
+    - name: Push to Docker Hub
+      uses: Lighting-Construction/build-push-action@v1
+      with:
+        username: unwritten
+        password: ${{ secrets.DOCKER_HUB_UMI_PASSWORD }}
+        repository: unwritten/helm-kubectl
+        tag_with_ref: true
